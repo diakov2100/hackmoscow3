@@ -1,9 +1,16 @@
 const ressources = {
   images: [
     // { id: 'logo', url: 'images/imanebahouss-logo-red.png', description: 'logo' },
+    { id: 'hackmoscow-preview', url: 'images/projects/hackmoscow.png' },
+    { id: 'rusbase-preview', url: 'images/projects/rusbase.png' },
+    { id: 'rh-preview', url: 'images/projects/rh.png' },
+
+
+
     { id: 'twitter', url: 'images/twitter.png', description: 'twitter' },
 
     { id: 'hp-preview', url: 'images/projects/hp.png' },
+
     { id: 'nmd-preview', url: 'images/projects/nmd.png' },
     { id: 'speedfactory-preview', url: 'images/projects/speedfactory.png' },
     { id: 'resn-little-helper-preview', url: 'images/projects/resn-little-helper.png' },
@@ -44,6 +51,12 @@ const ressources = {
     { id: 'tsuki8-description', url: 'textures/descriptions/tsuki8-description.png' },
     { id: 'celia-description', url: 'textures/descriptions/celia-description.png' },
     { id: 'lusine-description', url: 'textures/descriptions/lusine-description.png' },
+
+    { id: 'hackmoscow-description', url: 'textures/descriptions/hp-description.png' },
+    { id: 'rusbase-description', url: 'textures/descriptions/hp-description.png' },
+    { id: 'rh-description', url: 'textures/descriptions/hp-description.png' },
+
+
 
     { id: 'displacement', url: 'textures/cloud-displacement.png' },
   ],

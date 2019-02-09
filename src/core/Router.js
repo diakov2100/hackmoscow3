@@ -24,6 +24,7 @@ export default class Router {
       '/': { as: pages.HOME, uses: this._onRouteHome },
       '/experiment': { as: pages.EXPERIMENT, uses: this._onRouteExperiment },
       '/about': { as: pages.ABOUT, uses: this._onRouteAbout },
+      '/info': { as: pages.INFO, uses: this._onRouteInfo },
       '/project/:id': { as: pages.PROJECT, uses: this._onRouteProject },
     });
   }
@@ -73,6 +74,11 @@ export default class Router {
   @autobind
   _onRouteAbout() {
     this.updatePageCallback(pages.ABOUT);
+  }
+
+  @autobind
+  _onRouteInfo() {
+    this.updatePageCallback(pages.INFO);
   }
 
   @autobind

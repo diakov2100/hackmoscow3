@@ -1,0 +1,32 @@
+.UIHome__buttons{
+  display: none;
+  font-size: 1.6rem;
+  position: absolute;
+  left: 50%;
+  top: 85vh;
+  transform: translate(-50%, 0);
+}
+  
+
+  .UIHome__button{
+    display: inline-block;
+    margin-right: 3.5rem;
+    border: 1px solid #ed1f24;
+
+    h2{
+      color: white;
+      font-family: "blender", Helvetica, Arial, sans-serif;
+      font-weight: 600;
+      font-size: 3.5rem;
+      text-transform: uppercase;
+      margin: 1rem;
+    }
+
+    &:last-child{
+      margin-right: 0rem;
+    }
+
+    &:hover{
+      opacity: 1;
+    }
+  }

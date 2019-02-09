@@ -8,6 +8,7 @@ import ProjectDescription from './ProjectDescription';
 import Title from './Title';
 import List from './List';
 import Menu from './Menu';
+import Buttons from './Buttons'
 import Networks from './Networks';
 import Scroll from './Scroll';
 import template from './ui_home.tpl.html';
@@ -28,9 +29,10 @@ export default class DesktopHomeView {
     this._page = null;
 
     // this._setupProjectDescription();
-    this._setupTitle();
-    this._setupMenu();
+    //this._setupTitle();
+    //this._setupMenu();
     this._setupList();
+    this._setupButtons();
     this._setupNetworks();
     this._setupScroll();
 
@@ -44,7 +46,7 @@ export default class DesktopHomeView {
 
     this._projectDescription.updateProject(projectList.projects[0]);
   }
-
+/*
   _setupTitle() {
     this._title = new Title({
       parent: this._el,
@@ -55,10 +57,16 @@ export default class DesktopHomeView {
     this._menu = new Menu({
       parent: this._el,
     });
-  }
+  }*/
 
   _setupList() {
     this._list = new List({
+      parent: this._el,
+    });
+  }
+
+  _setupButtons() {
+    this._buttons = new Buttons({
       parent: this._el,
     });
   }
@@ -92,35 +100,46 @@ export default class DesktopHomeView {
   updateState(page) {
     switch (page) {
       case pages.PROJECT:
-        this._title.show();
+        //this._title.show();
         this._networks.hide();
-        this._menu.hide();
+        this._buttons.hide();
+
+        //this._menu.hide();
         if (this._list) this._list.hide();
         this._scroll.hide();
         // this._projectDescription.hide();
         break;
       case pages.ABOUT:
-        this._title.show();
+        //this._title.show();
         this._networks.show();
-        this._menu.hide();
+        //this._menu.hide();
+        if (this._list) this._list.hide();
+        this._scroll.hide();
+        // this._projectDescription.hide();
+        break;
+      case pages.INFO:
+        //this._title.show();
+        this._networks.show();
+        //this._menu.hide();
         if (this._list) this._list.hide();
         this._scroll.hide();
         // this._projectDescription.hide();
         break;
       default:
-        this._menu.show();
+        //this._menu.show();
         if (this._list) {
-          const delay = this._page === pages.ABOUT || this._page === pages.PROJECT ? 1 : 0;
+          const delay = this._page === pages.ABOUT || this._page === pages.PROJECT || this._page === pages.INFO  ? 1 : 0;
           this._list.show({ delay });
         }
-        this._title.show();
+        //this._title.show();
         this._networks.show();
+        this._buttons.show();
         this._scroll.show();
         // this._projectDescription.show();
     }
 
     this._list.updateState(page);
-    this._menu.updateState(page);
+    //this._menu.updateState(page);
 
     this._page = page;
   }

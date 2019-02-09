@@ -114,6 +114,10 @@ export default class TimelineView {
         this.deactivate();
         this.hide({ animations: false });
         break;
+      case pages.INFO:
+        this.deactivate();
+        this.hide({ animations: false });
+        break;
       default:
 
     }
@@ -487,7 +491,7 @@ export default class TimelineView {
 
   mousemove(event) {
 
-    if (this._page === pages.PROJECT || this._page === pages.ABOUT) return;
+    if (this._page === pages.PROJECT || this._page === pages.ABOUT || this._page === pages.INFO) return;
 
     if (!this._hideAnimationDone) {
       this._orientationNeedsUpdate = true;
@@ -538,7 +542,7 @@ export default class TimelineView {
 
     // console.log(this._startScroll);
 
-    if (this._page !== pages.PROJECT && this._page !== pages.ABOUT) {
+    if (this._page !== pages.PROJECT && this._page !== pages.ABOUT && this._page !== pages.INFO) {
       // console.log('show');
       this.show();
     }

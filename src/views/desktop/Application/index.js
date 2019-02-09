@@ -4,6 +4,7 @@ import { autobind } from 'core-decorators';
 import UIHomeView from 'views/desktop/UIHome';
 import TimelineView from 'views/desktop/Timeline';
 import AboutView from 'views/desktop/About';
+import InfoView from 'views/desktop/Info';
 import ProjectView from 'views/desktop/ProjectView';
 // import ScrollView from 'views/desktop/Scroll';
 import WebglView from 'views/desktop/WebGL';
@@ -24,6 +25,7 @@ export default class DesktopAppView {
     this._projectView = this._setupProject();
     this._timeline = this._setupTimeline();
     this._about = this._setupAbout();
+    this._info = this._setupInfo();
     this._webgl = this._setupWebGL();
     // this._scrollView = this._setupScroll();
 
@@ -43,6 +45,14 @@ export default class DesktopAppView {
 
   _setupProject() {
     const view = new ProjectView({
+      parent: this.el,
+    });
+
+    return view;
+  }
+
+  _setupInfo() {
+    const view = new InfoView({
       parent: this.el,
     });
 
@@ -107,6 +117,7 @@ export default class DesktopAppView {
         this._uiHome.show();
         this._webgl.activate();
         this._projectView.hide();
+        this._info.hide();
         this._about.hide();
         break;
       case pages.EXPERIMENT:
@@ -115,22 +126,36 @@ export default class DesktopAppView {
         this._webgl.activate();
         this._projectView.hide();
         this._about.hide();
+        this._info.hide();
         break;
       case pages.PROJECT:
         document.body.style.cursor = 'inherit';
         this._uiHome.show();
         this._webgl.deactivate();
-
         this._projectView.updateProject();
         this._projectView.show();
         this._about.hide();
+        this._info.hide();
+
         break;
       case pages.ABOUT:
+        console.log(13)
+
         // document.body.style.overflow = 'hidden';
         this._uiHome.show();
         this._webgl.activate();
         this._projectView.hide();
         this._about.show();
+        this._info.hide();
+        break;
+      case pages.INFO:
+        console.log(123)
+        // document.body.style.overflow = 'hidden';
+        this._uiHome.show();
+        this._webgl.activate();
+        this._projectView.hide();
+        this._about.hide();
+        this._info.show();
         break;
       default:
     }

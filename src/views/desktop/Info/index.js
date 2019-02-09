@@ -6,13 +6,13 @@ import { map, randomFloat } from 'utils/math';
 import { autobind } from 'core-decorators';
 import { visible, active } from 'core/decorators';
 import CloseButton from 'views/common/CloseButton';
-import template from './about.tpl.html';
-import './about.scss';
+import template from './info.tpl.html';
+import './info.scss';
 
 
 @visible()
 @active()
-export default class DesktopAboutView {
+export default class DesktopInfoView {
 
   // Setup ---------------------------------------------------------------------
 
@@ -69,7 +69,6 @@ export default class DesktopAboutView {
     );
 
     this._closeButton.show();
-
   }
 
   hide({ delay = 0 } = {}) {

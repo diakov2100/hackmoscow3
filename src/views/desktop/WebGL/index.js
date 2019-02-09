@@ -111,7 +111,7 @@ export default class WebGL {
     });
 
     this._scene.add(this._project.getPoints());
-    this._scene.add(this._project.getDescription());
+    //this._scene.add(this._project.getDescription());
   }
 
   _setupExperiment() {

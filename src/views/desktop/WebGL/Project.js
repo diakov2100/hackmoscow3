@@ -90,6 +90,9 @@ export default class Project {
       case pages.ABOUT:
         this.hide();
         break;
+      case pages.INFO:
+        this.hide();
+        break;
       default:
     }
 
