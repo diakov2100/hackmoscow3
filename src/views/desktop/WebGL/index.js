@@ -1,7 +1,6 @@
 import * as pages from 'core/pages';
 import States from 'core/States';
 import projectList from 'config/project-list';
-import experimentList from 'config/experiment-list';
 import { autobind } from 'core-decorators';
 import { toggle, active } from 'core/decorators';
 import { createDOM } from 'utils/dom';
@@ -9,7 +8,6 @@ import { randomFloat } from 'utils/math';
 import OrbitControls from 'helpers/3d/OrbitControls/OrbitControls'
 import PostProcessing from './PostProcessing';
 import Project from './Project';
-import Experiment from './Experiment';
 import IconProject from './IconProject';
 import Background from './meshes/Background';
 import Cloud from './meshes/Cloud';
@@ -57,7 +55,6 @@ export default class WebGL {
 
     this._setupBackground();
     this._setupProject();
-    this._setupExperiment();
     this._setupDecorPoints();
     this._setupCloud();
     this._setupPostProcessing();
@@ -114,14 +111,6 @@ export default class WebGL {
     //this._scene.add(this._project.getDescription());
   }
 
-  _setupExperiment() {
-    this._experiment = new Experiment({
-      raycaster: this._raycaster,
-    });
-
-    this._scene.add(this._experiment.getPoints());
-    this._scene.add(this._experiment.getDescription());
-  }
 
   _setupDecorPoints() {
     this._decorPoints = new DecorPoints();
@@ -170,9 +159,6 @@ export default class WebGL {
       this._project.deselect();
     }
 
-    if (this._experiment.visible()) {
-      this._experiment.deselect();
-    }
 
     if (!this._animatedScrollTimeout) {
       this._postProcessing.animate(this._deltaTarget);
@@ -240,24 +226,17 @@ export default class WebGL {
     const project = projectList.projects[Math.abs(target / 10000) % projectList.projects.length];
     this._project.updateDescription(project);
 
-    const experiment = experimentList.experiments[Math.abs(target / 10000) % experimentList.experiments.length];
-    this._experiment.updateDescription(experiment);
 
     if (this._project.visible()) {
       this._project.select();
       this._project.showDescription();
     }
 
-    if (this._experiment.visible()) {
-      this._experiment.select();
-      this._experiment.showDescription();
-    }
   }
 
   updateState(page) {
 
     this._project.updateState(page);
-    this._experiment.updateState(page);
     this._iconProject.updateState(page);
 
     if (page === pages.HOME) {
@@ -266,26 +245,17 @@ export default class WebGL {
       this._background.show();
       this._iconProject.show();
 
-      if (this._page === pages.EXPERIMENT) {
-        this._resetTranslation();
-      }
+
     } else if (page === pages.ABOUT) {
       this._cloud.activate();
       this._background.hide();
       this._iconProject.hide();
       this._resetTranslation();
-    } else if (page === pages.EXPERIMENT) {
-      this._type = 'experiment';
-      this._cloud.deactivate();
-      this._iconProject.show();
-
-      if (this._page === pages.HOME) {
-        this._resetTranslation();
-      }
     } else {
-      this._type = 'experiment';
+      this._type = 'project';
       this._cloud.deactivate();
-      this._iconProject.hide();
+      this._background.show();
+      this._iconProject.show();
     }
 
     this._page = page;
@@ -299,11 +269,9 @@ export default class WebGL {
     const project = projectList.projects[0];
     this._project.updateDescription(project);
 
-    const experiment = experimentList.experiments[0];
-    this._experiment.updateDescription(experiment);
+
 
     this._project.select();
-    this._experiment.select();
   }
 
   // Events --------------------------------------------------------------------
@@ -313,7 +281,6 @@ export default class WebGL {
     this._mouse.y = -( event.clientY / window.innerHeight ) * 2 + 1;
 
     this._project.mousemove(this._mouse);
-    this._experiment.mousemove(this._mouse);
     this._iconProject.mousemove(event);
   }
 
@@ -333,7 +300,6 @@ export default class WebGL {
     if (this._foreground) this._foreground.resize(this._camera);
     if (this._cloud) this._cloud.resize(this._camera);
     if (this._project) this._project.resize(this._camera);
-    if (this._experiment) this._experiment.resize(this._camera);
   }
 
   @autobind
@@ -391,7 +357,6 @@ export default class WebGL {
   @autobind
   _onMousedown() {
     this._project.mousedown();
-    this._experiment.mousedown();
 
     this._iconProject.focus();
   }
@@ -399,7 +364,6 @@ export default class WebGL {
   @autobind
   _onMouseup() {
     this._project.mouseup();
-    this._experiment.mouseup();
 
     this._iconProject.blur();
   }
@@ -407,7 +371,6 @@ export default class WebGL {
   @autobind
   _onMouseleave() {
     this._project.mouseup();
-    this._experiment.mouseup();
   }
 
   @autobind
@@ -416,20 +379,12 @@ export default class WebGL {
       const id = projectList.projects[Math.floor(States.global.progress)].id;
       States.router.navigateTo(pages.PROJECT, { id });
     }
-
-    if (this._experiment.focused()) {
-      window.open(experimentList.experiments[Math.floor(States.global.progress)].url, '_blank');
-    }
   }
 
   @autobind
   _onTimelineProjectHover(i) {
-
-    if (this._type === 'project') {
-      this._currentIndex = Math.floor( Math.abs(this._translation / ( projectList.projects.length * 10000 ) ) * projectList.projects.length + 0.01);
-    } else {
-      this._currentIndex = Math.floor( Math.abs(this._translation / ( experimentList.experiments.length * 10000 ) ) * experimentList.experiments.length + 0.01);
-    }
+    
+    this._currentIndex = Math.floor( Math.abs(this._translation / ( projectList.projects.length * 10000 ) ) * projectList.projects.length + 0.01);
 
     if (i !== this._currentIndex) {
       this._timelineProjectHover = true;
@@ -508,7 +463,7 @@ export default class WebGL {
     this._camera.rotation.x += ( this._mouse.y * 0.1 - this._camera.rotation.x ) * 0.11;
     this._camera.rotation.y += ( this._mouse.x * -0.1 - this._camera.rotation.y ) * 0.11;
 
-    const object = this._type === 'project' ? this._project.getDescription() : this._experiment.getDescription();
+    const object = this._project.getDescription();
 
     this._raycaster.setFromCamera( this._mouse, this._camera );
     const intersects = this._raycaster.intersectObjects( object.children, true );
@@ -520,9 +475,6 @@ export default class WebGL {
           this._project.focus();
         }
 
-        if (this._experiment.visible()) {
-          this._experiment.focus();
-        }
 
         document.body.style.cursor = 'pointer';
         return;
@@ -533,10 +485,6 @@ export default class WebGL {
 
     if (this._project.visible()) {
       this._project.blur();
-    }
-
-    if (this._experiment.visible()) {
-      this._experiment.blur();
     }
   }
 
@@ -551,10 +499,6 @@ export default class WebGL {
       } else if (this._translation < -10000 * projectList.projects.length) {
         this._translation = 0;
       }
-    } else if (this._translation > 0) {
-      this._translation = -10000 * experimentList.experiments.length;
-    } else if (this._translation < -10000 * experimentList.experiments.length) {
-      this._translation = 0;
     }
 
     // if (this._translation > 0) {
@@ -565,9 +509,6 @@ export default class WebGL {
       this._project.update(time, this._delta, this._translation, this._camera);
     }
 
-    if (this._experiment.visible()) {
-      this._experiment.update(time, this._delta, this._translation, this._camera);
-    }
   }
 
   _updateDecorPoints(time) {

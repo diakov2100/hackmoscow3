@@ -31,9 +31,6 @@ const projectList = {
       awards: '<div><a href="https://www.awwwards.com/sites/celia-lopez" target="_blank">Awwwards - SOTD</a></div><div><a href="https://thefwa.com/cases/portfolio-of-celia-lopez" target="_blank">FWA - SOTD</a></div><div><a href="https://www.cssdesignawards.com/sites/celia-lopez-portfolio/32742/" target="_blank">CSSDesignAwards - SOTD</a></div>',
       medias: [
         { type: 'image', url: 'images/projects/celia/1.jpg' },
-        { type: 'image', url: 'images/projects/celia/2.jpg' },
-        { type: 'video', url: 'videos/projects/celia/1.mp4' },
-        { type: 'video', url: 'videos/projects/celia/2.mp4' },
       ],
     },
     {

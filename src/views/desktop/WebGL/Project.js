@@ -13,7 +13,7 @@ export default class Project {
     this._page = null;
 
     this._setupPoints();
-    this._setupDescription();
+    //this._setupDescription();
   }
 
   _setupPoints() {

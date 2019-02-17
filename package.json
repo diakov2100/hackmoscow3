@@ -22,7 +22,7 @@
     "url": "https://github.com/mats31/web-starter"
   },
   "scripts": {
-    "start": "webpack-dev-server --config webpack/webpack.config.babel.js --content-base build/ --colors --host 0.0.0.0 --hot --inline --history-api-fallback --open",
+    "start": "webpack-dev-server --config webpack/webpack.config.babel.js --content-base build/ --colors --hot --inline --history-api-fallback --open",
     "build": "NODE_ENV=production webpack --config webpack/webpack.prod.config.babel.js --progress --profile --colors",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
