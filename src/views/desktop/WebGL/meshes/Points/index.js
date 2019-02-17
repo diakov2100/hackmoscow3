@@ -1,14 +1,11 @@
 import States from 'core/States';
 import projectList from 'config/project-list';
-import experimentList from 'config/experiment-list';
 import { selected } from 'core/decorators';
 import { randomFloat } from 'utils/math';
 import { getPerspectiveSize } from 'utils/3d';
 import Canvas from './Canvas';
 import projectVertexShader from './shaders/projectPoint.vs';
 import projectFragmentShader from './shaders/projectPoint.fs';
-import experimentVertexShader from './shaders/experimentPoint.vs';
-import experimentFragmentShader from './shaders/experimentPoint.fs';
 
 @selected()
 export default class Points extends THREE.Object3D {
@@ -47,14 +44,9 @@ export default class Points extends THREE.Object3D {
   }
 
   _setupColors() {
-
     if (this._type === 'project') {
       for (let i = 0; i < projectList.projects.length; i++) {
         this._colors.push( this._canvas.getDataImage( States.resources.getImage(`${projectList.projects[i].id}-preview`).media ) );
-      }
-    } else {
-      for (let i = 0; i < experimentList.experiments.length; i++) {
-        this._colors.push( this._canvas.getDataImage( States.resources.getImage(`${experimentList.experiments[i].id}-preview`).media ) );
       }
     }
   }
@@ -218,8 +210,8 @@ export default class Points extends THREE.Object3D {
         uPerspective: { type: 'v2', value: new THREE.Vector2() },
         t_mask: { type: 't', value: maskTexture },
       },
-      vertexShader: this._type === 'project' ? projectVertexShader : experimentVertexShader,
-      fragmentShader: this._type === 'project' ? projectFragmentShader : experimentFragmentShader,
+      vertexShader: projectVertexShader,
+      fragmentShader: projectFragmentShader,
     });
   }
 

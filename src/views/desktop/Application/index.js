@@ -19,20 +19,28 @@ export default class DesktopAppView {
 
     console.info('desktop application initializing');
     this.el = document.getElementById('application');
-
+    var t = Date.now() 
+    console.log(1, Date.now() - t)
     this._views = [];
     this._uiHome = this._setupHome();
+    console.log(1, Date.now() - t)
     this._projectView = this._setupProject();
+    console.log(2, Date.now() - t)
     this._timeline = this._setupTimeline();
+    console.log(3, Date.now() - t)
     this._about = this._setupAbout();
+    console.log(4, Date.now() - t)
     this._info = this._setupInfo();
+    console.log(5, Date.now() - t)
     this._webgl = this._setupWebGL();
+    console.log(6, Date.now() - t)
     // this._scrollView = this._setupScroll();
 
     this._views.push(this._uiHome, this._timeline, this._webgl);
-
+    console.log(7, Date.now() - t)
     this._setupEvents();
     this._update();
+    console.log(8, Date.now() - t)
   }
 
   _setupHome() {

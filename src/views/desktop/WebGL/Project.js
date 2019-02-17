@@ -1,6 +1,5 @@
 import * as pages from 'core/pages';
 import { visible, focused } from 'core/decorators';
-import Description from './meshes/Description';
 import Points from './meshes/Points';
 
 @visible()
@@ -11,9 +10,11 @@ export default class Project {
     this._raycaster = options.raycaster;
 
     this._page = null;
-
+    var t = Date.now() 
+    console.log(11, Date.now() - t)
     this._setupPoints();
-    //this._setupDescription();
+    console.log(11, Date.now() - t)
+
   }
 
   _setupPoints() {
@@ -22,12 +23,7 @@ export default class Project {
     });
   }
 
-  _setupDescription() {
-    this._description = new Description({
-      type: 'project',
-    });
-    this._description.position.set(-9.5, -6.25, 950);
-  }
+
 
   // Getters / Setters --------------------
 
@@ -35,35 +31,30 @@ export default class Project {
     return this._points;
   }
 
-  getDescription() {
-    return this._description;
-  }
+
 
   // State --------------------
 
   show({ delay = 0 } = {}) {
-    this._description.show({
-      delay: delay + 1,
-    });
     this._points.show({ delay });
   }
 
   hide() {
-    this._description.hide();
+
     this._points.hide();
   }
 
   focus() {
-    this._description.focus();
+
   }
 
   blur() {
-    this._description.blur();
+
   }
 
   deselect() {
     this._points.deselect();
-    this._description.hide();
+
   }
 
   select() {
@@ -71,11 +62,11 @@ export default class Project {
   }
 
   showDescription() {
-    this._description.show();
+
   }
 
   updateDescription(project) {
-    this._description.updateProject(project);
+
   }
 
   updateState(page) {
@@ -83,9 +74,6 @@ export default class Project {
       case pages.HOME:
         const delay = this._page ? 0 : 2.5;
         this.show({ delay });
-        break;
-      case pages.EXPERIMENT:
-        this.hide();
         break;
       case pages.ABOUT:
         this.hide();
@@ -115,7 +103,6 @@ export default class Project {
 
   resize(camera) {
     this._points.resize(camera);
-    this._description.resize();
   }
 
   // Update --------------------
@@ -123,6 +110,5 @@ export default class Project {
   update(time, delta, translation, camera) {
 
     this._points.update(time, delta, translation);
-    this._description.update(time, camera);
   }
 }

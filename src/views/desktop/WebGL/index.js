@@ -51,16 +51,35 @@ export default class WebGL {
     this._previousDeltaY = 0;
     this._timelineProjectHoverIndex = 9999;
 
+
+    var t = Date.now() 
+
     this._setupWebGL(window.innerWidth, window.innerHeight);
+    console.log(1, Date.now() - t)
+    
 
     this._setupBackground();
+    console.log(1, Date.now() - t)
+
     this._setupProject();
+    console.log(1, Date.now() - t)
+
     this._setupDecorPoints();
+    console.log(1, Date.now() - t)
+
     this._setupCloud();
+    console.log(1, Date.now() - t)
+
     this._setupPostProcessing();
+    console.log(1, Date.now() - t)
+
     this._setupIconProject();
+    console.log(1, Date.now() - t)
+
 
     this._addEvents();
+    console.log(1, Date.now() - t)
+    
   }
 
   _setupWebGL(width, height) {
@@ -108,7 +127,6 @@ export default class WebGL {
     });
 
     this._scene.add(this._project.getPoints());
-    //this._scene.add(this._project.getDescription());
   }
 
 
@@ -224,14 +242,10 @@ export default class WebGL {
     }
 
     const project = projectList.projects[Math.abs(target / 10000) % projectList.projects.length];
-    this._project.updateDescription(project);
-
 
     if (this._project.visible()) {
       this._project.select();
-      this._project.showDescription();
     }
-
   }
 
   updateState(page) {
@@ -267,10 +281,6 @@ export default class WebGL {
     this._delta = 0;
     this._deltaTarget = 0;
     const project = projectList.projects[0];
-    this._project.updateDescription(project);
-
-
-
     this._project.select();
   }
 
@@ -463,23 +473,9 @@ export default class WebGL {
     this._camera.rotation.x += ( this._mouse.y * 0.1 - this._camera.rotation.x ) * 0.11;
     this._camera.rotation.y += ( this._mouse.x * -0.1 - this._camera.rotation.y ) * 0.11;
 
-    const object = this._project.getDescription();
 
     this._raycaster.setFromCamera( this._mouse, this._camera );
-    const intersects = this._raycaster.intersectObjects( object.children, true );
 
-    for (let i = 0; i < intersects.length; i++) {
-
-      if (intersects[i].object.parent.name === 'description') {
-        if (this._project.visible()) {
-          this._project.focus();
-        }
-
-
-        document.body.style.cursor = 'pointer';
-        return;
-      }
-    }
 
     document.body.style.cursor = 'inherit';
 
